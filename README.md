@@ -24,7 +24,7 @@ JSCalendar objects directly when your data already matches the spec.
 ## Installation
 
 ```bash
-pnpm add @craftguild/jscalendar
+pnpm add jscalendar-kit
 ```
 
 ## Browser ESM Example
@@ -39,7 +39,7 @@ The repository includes a single-file example at
 
 ```html
 <script type="module">
-    import { JsCal } from "https://esm.sh/@craftguild/jscalendar@0.7.0?bundle";
+    import { JsCal } from "https://esm.sh/jscalendar-kit@0.7.0?bundle";
 
     const event = new JsCal.Event({
         title: "Browser demo",
@@ -54,7 +54,7 @@ The repository includes a single-file example at
 ## Quick Start
 
 ```ts
-import { JsCal } from "@craftguild/jscalendar";
+import { JsCal } from "jscalendar-kit";
 
 // Create a recurring event and a simple task, then expand occurrences.
 const event = new JsCal.Event({
