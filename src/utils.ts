@@ -1,6 +1,5 @@
 import type { Duration, UTCDateTime } from "./types.js";
-import { format } from "date-fns";
-import { formatInTimeZone, fromZonedTime } from "date-fns-tz";
+import { fromZonedTime, toZonedTime } from "date-fns-tz";
 
 const TYPEOF_FUNCTION = "function";
 const TYPEOF_STRING = "string";
@@ -150,7 +149,7 @@ export function normalizeUtcDateTime(value: string): UTCDateTime {
  * @return LocalDateTime string.
  */
 export function localDateTimeFromDate(value: Date): string {
-    return format(value, "yyyy-MM-dd'T'HH:mm:ss");
+    return formatDateParts(value);
 }
 
 /**
@@ -160,7 +159,7 @@ export function localDateTimeFromDate(value: Date): string {
  * @return LocalDateTime string in the time zone.
  */
 export function dateTimeInTimeZone(value: Date, timeZone: string): string {
-    return formatInTimeZone(value, timeZone, "yyyy-MM-dd'T'HH:mm:ss");
+    return formatDateParts(toZonedTime(value, timeZone));
 }
 
 /**
@@ -184,4 +183,19 @@ export function localDateTimeToUtcDate(value: string, timeZone: string): Date {
     const second = Number(match[6]);
     const local = new Date(year, month - 1, day, hour, minute, second);
     return fromZonedTime(local, timeZone);
+}
+
+/**
+ * Format date parts as a JSCalendar LocalDateTime string.
+ * @param value Date whose local fields should be formatted.
+ * @return LocalDateTime string.
+ */
+function formatDateParts(value: Date): string {
+    const year = value.getFullYear().toString().padStart(4, "0");
+    const month = (value.getMonth() + 1).toString().padStart(2, "0");
+    const day = value.getDate().toString().padStart(2, "0");
+    const hour = value.getHours().toString().padStart(2, "0");
+    const minute = value.getMinutes().toString().padStart(2, "0");
+    const second = value.getSeconds().toString().padStart(2, "0");
+    return `${year}-${month}-${day}T${hour}:${minute}:${second}`;
 }

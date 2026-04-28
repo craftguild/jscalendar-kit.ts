@@ -39,7 +39,7 @@ The repository includes a single-file example at
 
 ```html
 <script type="module">
-    import { JsCal } from "https://esm.sh/jscalendar-kit@0.7.0?bundle";
+    import { JsCal } from "https://esm.sh/jscalendar-kit@0.7.6?bundle";
 
     const event = new JsCal.Event({
         title: "Browser demo",
@@ -460,6 +460,48 @@ for (const occ of JsCal.expandRecurrence(
 }
 ```
 
+### RSCALE Recurrence
+
+Non-Gregorian recurrence rules are supported through the RFC 7529
+`rscale` property. Input dates and recurrence IDs remain JSCalendar
+LocalDateTime strings in the Gregorian calendar; `rscale` controls the
+calendar arithmetic used while expanding the recurrence.
+
+```ts
+const event = new JsCal.Event({
+    title: "Calendar-local monthly event",
+    start: "2026-02-15T09:00:00",
+    timeZone: "Asia/Tokyo",
+    recurrenceRules: [
+        JsCal.RecurrenceRule({
+            frequency: "monthly",
+            rscale: "hebrew",
+            count: 4,
+        }),
+    ],
+});
+
+const occurrences = Array.from(
+    JsCal.expandRecurrence([event], {
+        from: new Date("2026-01-01T00:00:00Z"),
+        to: new Date("2026-12-31T23:59:59Z"),
+    }),
+);
+```
+
+Supported `rscale` inputs are `gregorian`, `gregory`, `iso8601`,
+`hebrew`, `chinese`, `dangi`, `indian`, `persian`, `japanese`,
+`buddhist`, `roc`, `coptic`, `ethiopic`, `ethioaa`,
+`ethiopic-amete-alem`, `islamic`, `islamic-civil`, `islamic-tbla`,
+and `islamic-umalqura`.
+
+`gregory` and `iso8601` are accepted as aliases for `gregorian`;
+`ethioaa` is accepted as an alias for `ethiopic-amete-alem`. Unknown
+values are rejected during object creation. Calendar arithmetic is backed
+by `Temporal` via `@js-temporal/polyfill`, so known calendars fail fast
+during expansion if the active runtime cannot provide the required
+calendar backend.
+
 ### Paged Expansion (for infinite scroll)
 
 `expandRecurrencePaged` wraps the generator and provides a cursor-based
@@ -544,8 +586,13 @@ The items below are the known deltas between a strict RFC implementation
 and this library’s behavior.
 
 - **rscale**:
-    - recurrence expansion supports `gregorian` plus a registry-backed set of non-Gregorian calendars
-      when the active runtime can provide the required calendar backend
+    - recurrence expansion supports `gregorian`, `hebrew`, `chinese`, `dangi`,
+      `indian`, `persian`, `japanese`, `buddhist`, `roc`, `coptic`, `ethiopic`,
+      `ethiopic-amete-alem`, `islamic`, `islamic-civil`, `islamic-tbla`, and
+      `islamic-umalqura` when the active runtime can provide the required
+      calendar backend
+    - `gregory` and `iso8601` are accepted as aliases for `gregorian`; `ethioaa`
+      is accepted as an alias for `ethiopic-amete-alem`
     - unknown `rscale` values are rejected during object creation
     - known calendars that are unavailable in the active runtime throw during recurrence expansion
 - **Validation**:
