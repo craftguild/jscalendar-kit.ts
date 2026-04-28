@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.7.6](https://github.com/craftguild/jscalendar-kit.ts/compare/v0.7.5...v0.7.6) (2026-04-28)
+
 ## [0.7.5](https://github.com/craftguild/jscalendar-kit.ts/compare/v0.7.4...v0.7.5) (2026-04-28)
 
 ### Features
