@@ -577,7 +577,7 @@ describe("recurrence expansion", () => {
         const occ = collect(
             JsCal.expandRecurrence([event], {
                 from: new Date("2026-01-01"),
-                to: new Date("2026-03-31"),
+                to: new Date(2026, 2, 31, 23, 59, 59),
             }),
         );
 
@@ -859,7 +859,7 @@ describe("recurrence expansion", () => {
                 [event],
                 {
                     from: new Date("2026-01-01"),
-                    to: new Date("2026-02-28"),
+                    to: new Date(2026, 1, 28, 23, 59, 59),
                 },
                 { includeAnchor: false },
             ),
