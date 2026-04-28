@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.7.5](https://github.com/craftguild/jscalendar-kit.ts/compare/v0.7.4...v0.7.5) (2026-04-28)
+
+### Features
+
+- support non-gregorian rscale via Temporal ([1507982](https://github.com/craftguild/jscalendar-kit.ts/commit/15079820c40344c5581fbc20d24939b5ff9f94d2))
+
 ## [0.7.4](https://github.com/craftguild/jscalendar.ts/compare/v0.7.3...v0.7.4) (2026-04-21)
 
 ## [0.7.3](https://github.com/craftguild/jscalendar.ts/compare/v0.7.2...v0.7.3) (2026-04-18)
