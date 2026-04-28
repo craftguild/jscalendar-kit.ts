@@ -1,6 +1,6 @@
 import { z } from "zod";
+import { resolveRscaleDefinition } from "../recurrence/calendar/rscale-registry.js";
 import {
-    RSCALE_GREGORIAN,
     TYPE_ABSOLUTE_TRIGGER,
     TYPE_ALERT,
     TYPE_EVENT,
@@ -251,11 +251,21 @@ const recurrenceRuleSchema = objectSchema({
     interval: optionalUnsignedInteger(),
     rscale: z
         .string()
-        .refine(
-            (value) => value === RSCALE_GREGORIAN,
-            "only gregorian is supported",
-        )
-        .optional(),
+        .optional()
+        .superRefine((value, ctx) => {
+            if (value === undefined) return;
+            try {
+                resolveRscaleDefinition(value);
+            } catch (error) {
+                addIssue(
+                    ctx,
+                    [],
+                    error instanceof Error
+                        ? error.message
+                        : "must be a valid rscale",
+                );
+            }
+        }),
     skip: z
         .string()
         .refine(
@@ -268,25 +278,10 @@ const recurrenceRuleSchema = objectSchema({
         .refine((value) => isDayOfWeek(value), "must be a valid day of week")
         .optional(),
     byDay: arraySchema(ndaySchema),
-    byMonthDay: integerRangeArray(
-        -31,
-        31,
-        true,
-        "must be an integer between -31 and 31, excluding 0",
-    ),
+    byMonthDay: nonZeroIntegerArray(),
     byMonth: byMonthSchema(),
-    byYearDay: integerRangeArray(
-        -366,
-        366,
-        true,
-        "must be an integer between -366 and 366, excluding 0",
-    ),
-    byWeekNo: integerRangeArray(
-        -53,
-        53,
-        true,
-        "must be an integer between -53 and 53, excluding 0",
-    ),
+    byYearDay: nonZeroIntegerArray(),
+    byWeekNo: nonZeroIntegerArray(),
     byHour: integerRangeArray(
         0,
         23,

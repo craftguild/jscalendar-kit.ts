@@ -45,6 +45,7 @@
         "vitest": "^4.1.4"
     },
     "dependencies": {
+        "@js-temporal/polyfill": "^0.5.1",
         "date-fns": "^4.1.0",
         "date-fns-tz": "^3.2.0",
         "zod": "^4.3.6"

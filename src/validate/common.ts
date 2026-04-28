@@ -18,6 +18,7 @@ const TYPE_TEXT_PREFIX = "text/";
 const UTF8 = "utf-8";
 const TYPE_STRING = "string";
 const DEFAULT_VALIDATION_PATH = "object";
+const MONTH_TOKEN = /^[1-9][0-9]*L?$/i;
 
 /**
  * Check whether a value is a string.
@@ -627,13 +628,8 @@ export function byMonthSchema() {
     return z
         .array(
             z.string().superRefine((entry, ctx) => {
-                const numeric = Number.parseInt(entry, 10);
-                if (!Number.isInteger(numeric) || numeric < 1 || numeric > 12) {
-                    addIssue(
-                        ctx,
-                        [],
-                        "must be a month number between 1 and 12",
-                    );
+                if (!MONTH_TOKEN.test(entry)) {
+                    addIssue(ctx, [], "must be an RFC 7529 month token");
                 }
             }),
         )
