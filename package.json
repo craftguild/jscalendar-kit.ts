@@ -1,6 +1,6 @@
 {
     "name": "jscalendar-kit",
-    "version": "0.7.6",
+    "version": "0.7.7",
     "description": "RFC 8984 (JSCalendar) data model helpers for TypeScript",
     "license": "MIT",
     "type": "module",
