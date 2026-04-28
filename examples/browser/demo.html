@@ -794,6 +794,38 @@ Discuss priorities, blockers, and follow-up actions.</textarea
                             </div>
 
                             <label>
+                                Calendar scale
+                                <select name="rscale" class="js-enhance-select">
+                                    <option value="gregorian" selected>
+                                        gregorian
+                                    </option>
+                                    <option value="hebrew">hebrew</option>
+                                    <option value="chinese">chinese</option>
+                                    <option value="dangi">dangi</option>
+                                    <option value="indian">indian</option>
+                                    <option value="persian">persian</option>
+                                    <option value="japanese">japanese</option>
+                                    <option value="buddhist">buddhist</option>
+                                    <option value="roc">roc</option>
+                                    <option value="coptic">coptic</option>
+                                    <option value="ethiopic">ethiopic</option>
+                                    <option value="ethiopic-amete-alem">
+                                        ethiopic-amete-alem
+                                    </option>
+                                    <option value="islamic">islamic</option>
+                                    <option value="islamic-civil">
+                                        islamic-civil
+                                    </option>
+                                    <option value="islamic-tbla">
+                                        islamic-tbla
+                                    </option>
+                                    <option value="islamic-umalqura">
+                                        islamic-umalqura
+                                    </option>
+                                </select>
+                            </label>
+
+                            <label>
                                 Until
                                 <input name="until" type="datetime-local" />
                             </label>
@@ -922,7 +954,7 @@ Discuss priorities, blockers, and follow-up actions.</textarea
                         <div>
                             Import URL:
                             <code
-                                >https://esm.sh/jscalendar-kit@0.7.0?bundle</code
+                                >https://esm.sh/jscalendar-kit@0.7.6?bundle</code
                             >
                         </div>
                         <div>
@@ -964,7 +996,7 @@ Discuss priorities, blockers, and follow-up actions.</textarea
         </div>
 
         <script type="module">
-            import { JsCal } from "https://esm.sh/jscalendar-kit@0.7.0?bundle";
+            import { JsCal } from "https://esm.sh/jscalendar-kit@0.7.6?bundle";
 
             const form = document.querySelector("#demo-form");
             const status = document.querySelector("#status");
@@ -1317,6 +1349,7 @@ Discuss priorities, blockers, and follow-up actions.</textarea
                 if (!recurring) return undefined;
 
                 const frequency = form.elements.frequency.value;
+                const rscale = form.elements.rscale.value;
                 const interval = Number(form.elements.interval.value || "1");
                 const until = toLocalDateTime(form.elements.until.value);
                 const byDay = frequency === "weekly" ? readByDay() : [];
@@ -1325,6 +1358,10 @@ Discuss priorities, blockers, and follow-up actions.</textarea
                     frequency,
                     interval,
                 };
+
+                if (rscale !== "gregorian") {
+                    rule.rscale = rscale;
+                }
 
                 if (until) {
                     rule.until = until;
