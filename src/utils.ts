@@ -1,5 +1,6 @@
 import type { Duration, UTCDateTime } from "./types.js";
-import { fromZonedTime, toZonedTime } from "date-fns-tz";
+import { fromZonedTime } from "date-fns-tz/fromZonedTime";
+import { toZonedTime } from "date-fns-tz/toZonedTime";
 
 const TYPEOF_FUNCTION = "function";
 const TYPEOF_STRING = "string";
